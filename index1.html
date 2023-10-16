@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Head Experiment</title>
+    <style>
+        
+        body{
+            font-family:Arial, Helvetica, sans-serif ;
+            color: white;
+            background-color: black;
+        }
+        #container {
+            display: flex;
+            color: white;
+            background-color: black;
+        }
+        #main {
+            flex: 2ß;
+            color: white;
+            background-color: black;
+            border: 1px solid white;
+            padding: 5px;
+            width: 40%;
+        }
+        #logPanel {
+            width: 400px;
+            height: 500px;
+            overflow-y: scroll;
+          padding: 5px;
+            color: white;
+            background-color: black;
+            border: 1px solid white;
+            left: 50%;
+           
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="main">
+            <div id="inner">   <h1>Search Head Experiment</h1>
+            <label for="trials">Number of Trials:</label>
+            <input type="number" id="trials" name="trials" min="1" max="100" value="10">
+            <br>
+            <label for="arraySize">Array Size:</label>
+            <input type="number" id="arraySize" name="arraySize" min="100" value="10000">
+            <br>
+            <label for="heads">Number of Search Heads:</label>
+            <input type="number" id="heads" name="heads" min="1" max="100" value="2">
+            <br>
+            <button id="startButton">Start Experiment</button>
+            <div id="results"></div></div>
+         
+        </div>
+        <div id="logPanel"></div>
+    </div>
+
+    <script>
+        // Helper function to log messages
+        const logMessage = (message) => {
+            const logPanel = document.getElementById("logPanel");
+            logPanel.innerHTML += `<p>${message}</p>`;
+            logPanel.scrollTop = logPanel.scrollHeight;
+        };
+
+        // Global variable to cancel other search heads when the target is found
+        let cancelSearch = false;
+
+        // Simulated-concurrent search function
+        const simulatedConcurrentSearch = (array, target, start, end, headNumber) => {
+            return new Promise((resolve) => {
+                logMessage(`Search head ${headNumber} started from index ${start} to ${end}`);
+
+                let i = start;
+                const chunkSize = 50;  // Number of elements to process in one "chunk"
+
+                function processChunk() {
+                    for (; i < Math.min(start + chunkSize, end); i++) {
+                        if (cancelSearch) {
+                            logMessage(`Search head ${headNumber} cancelled`);
+                            resolve(-1);
+                            return;
+                        }
+                        if (array[i] === target) {
+                            cancelSearch = true;
+                            logMessage(`Search head ${headNumber} found target at ${i}`);
+                            resolve(i);
+                            return;
+                        }
+                    }
+
+                    start += chunkSize;
+
+                    if (i < end && !cancelSearch) {
+                        setTimeout(processChunk, 0);
+                    } else {
+                        logMessage(`Search head ${headNumber} did not find target`);
+                        resolve(-1);
+                    }
+                }
+
+                processChunk();
+            });
+        };
+
+        const initiateExperiment = async () => {
+            document.getElementById("logPanel").innerHTML = "";
+            logMessage("Experiment started");
+
+            const trials = parseInt(document.getElementById("trials").value);
+            const arraySize = parseInt(document.getElementById("arraySize").value);
+            const heads = parseInt(document.getElementById("heads").value);
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "<h2>Experiment Results</h2>";
+
+            let totalTime = 0;
+
+            for (let trial = 0; trial < trials; trial++) {
+                const array = Array.from({ length: arraySize }, (_, i) => `item${i}`);
+                const targetPosition = Math.floor(Math.random() * arraySize);
+                array[targetPosition] = "*target*";
+
+                const chunkSize = Math.ceil(array.length / heads);
+                const searchHeads = [];
+
+                cancelSearch = false;
+
+                for (let i = 0; i < heads; i++) {
+                    const start = i * chunkSize;
+                    const end = (i === heads - 1) ? array.length : start + chunkSize;
+                    searchHeads.push(simulatedConcurrentSearch(array, "*target*", start, end, i + 1));
+                }
+
+                const startTime = performance.now();
+                const foundPosition = await Promise.race(searchHeads);
+                const endTime = performance.now();
+
+                totalTime += (endTime - startTime);
+                resultsDiv.innerHTML += `<p>Trial ${trial + 1}: Found at ${foundPosition}, Time: ${endTime - startTime} ms</p>`;
+            }
+
+            const avgTime = totalTime / trials;
+            resultsDiv.innerHTML += `<p>Average Time: ${avgTime} ms</p>`;
+            logMessage(`Average Time: ${avgTime} ms`);
+        };
+
+        document.getElementById("startButton").addEventListener("click", initiateExperiment);
+    </script>
+</body>
+</html>
