@@ -159,7 +159,7 @@ function myFunction() {
   let cardNumber = document.getElementById("selectImage").selectedIndex;
 //   console.log('card = '+ cards[cardNumber])
 let currentCard = "images/"+cards[cardNumber]
-  console.log('card = '+ cards[cardNumber])
+  console.log('currentCard = '+ currentCard)
   document.getElementById("card").src = currentCard
   imageHolder = x
   let sources2 = {
