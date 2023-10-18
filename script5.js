@@ -158,7 +158,7 @@ function myFunction() {
   //document.getElementById("card").src=x+"images/cards/";
   let cardNumber = document.getElementById("selectImage").selectedIndex;
 //   console.log('card = '+ cards[cardNumber])
-let currentCard = "images/cards/"+cards[cardNumber]
+let currentCard = "images/"+cards[cardNumber]
   console.log('card = '+ cards[cardNumber])
   document.getElementById("card").src = currentCard
   imageHolder = x
