@@ -1,2 +1,1 @@
-This is a repo for my work as it relates to web design and development
-This is a message to see whether push to remote works
+This is the branch I've devoted to deoumenting the progress of the web application we are making together.  With this branch I will attempt to outline the various aspects of this greater project in an attempt to conceptualize the it in its entirety.
