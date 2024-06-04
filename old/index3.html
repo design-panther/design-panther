@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konva Kaleidoscope Image Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/konva@8.3.3/konva.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose"></script>
+</head>
+<body>
+    <div class="controlPanel" id="controlPanel">
+        <input type="range" min="1" max="5" value="3" class="slider" id="myRange" />
+        <button id="button" onclick="loadTheImage()">Change</button>
+        <button onclick="doCapture()">Capture</button>
+        <button id="hideShow" onclick="hideLogo()">Toggle</button>
+        <input type="text" id="theImage" name="theImage" value="images/image_one.jpeg" />
+        <button id="button" onclick="loadTheImage()">Load The Image</button>
+        <select id="selectImage" onchange="myFunction()">
+            <option value="images/image_one.jpeg">The Moon</option>
+            <option value="images/image_two.jpeg">History</option>
+            <option value="images/image_three.jpeg">Scary</option>
+            <option value="images/image_four.jpeg">Inverted</option>
+            <option value="images/image_five.jpeg">URL</option>
+            <option value="images/image_six.jpeg">Six</option>
+            <option value="images/bahai.jpeg">Bahai</option>
+            <option value="images/image_seven.jpeg">Seven</option>
+            <option value="images/image_eight.jpeg">Eight</option>
+            <option value="images/image_nine.jpeg">Nine</option>
+            <option value="images/image_ten.jpeg">Ten</option>
+            <option value="images/image_thirteen.jpeg">Thirteen</option>
+            <option value="images/image_fourteen.jpeg">Fourteen</option>
+            <option value="images/image_15.png">Fifteen</option>
+            <option value="images/image_16.png">Sixteen</option>
+        </select>
+        <select id="selectOverlay" onchange="changeOverlay()">
+            <option value="images/overlay2.png">Figure</option>
+            <option value="images/overlay3.png">Guitar</option>
+            <option value="images/overlay4.png">More Guitar</option>
+            <option value="images/overlay5.png">BLM</option>
+            <option value="images/overlay6.png">Full BLM</option>
+            <option value="images/overlay7.png">Another</option>
+            <option value="images/overlay9.png">CAT</option>
+            <option value="images/overlay10.png">CAT</option>
+            <option value="images/overlay11.png">Abstract</option>
+            <option value="images/overlay11.gif">Experimental</option>
+            <option value="images/overlay12.gif">Experimental2</option>
+            <option value="images/overlay13.gif">Experimental3</option>
+            <option value="images/overlay13.gif">Experimental4</option>
+            <option value="images/overlay15.png">Workers1</option>
+            <option value="images/overlay16.png">Ape</option>
+            <option value="images/overlay17.png">Shut_Down</option>
+            <option value="images/huckle.gif">Huckleberry</option>
+        </select>
+    </div>
+
+    <img draggable="true" id="topOverlay" src="images/halftonetop1.png">
+    <img draggable="true" id="pngOverlay" src="images/bubbles.png" onclick="hideLogo()" alt="bubbles" onkeydown="doCapture()">
+    <img draggable="true" id="pngOverlay1" src="images/overlay8.png" height="100%" onclick="hideLogo()" alt="bubbles" onkeydown="doCapture()">
+    <img draggable="true" id="bottomOverlay" src="images/halftoneOverlay3.png" height="100%">
+
+    <div id="container"></div>
+
+    <div id="quote">
+        <img id="card"  src="images/card0.jpg">
+    </div>
+
+    <div id="lower_middle">
+        <button id="recordAudio" onclick="startRecording()">Record Audio</button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt9"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt10"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt11"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt12"></button>
+    </div>
+
+    <div id="lower_left">
+        <button class="glow-on-hover" type="button" id="bt"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt1"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt2"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt3"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt4"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt5"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt6"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt7"></button>
+        <br><br>
+        <button class="glow-on-hover" type="button" id="bt8"></button>
+    </div>
+
+    <div id="block"></div>
+    <form id="fileForm">
+        <input type="file" id="fileInput" required>
+        <button type="submit">Copy File</button>
+    </form>
+    <div id="response"></div>
+
+    <script src="script6.js"></script>
+</body>
+</html>

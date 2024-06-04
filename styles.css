@@ -103,6 +103,8 @@ canvas {
   overflow: hidden;
   box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
   animation: rotation 4s infinite;
+  resize: both;
+  /* overflow: auto; */
   /* transform: translatey(0px);
 	animation: float 6s ease-in-out infinite; */
   /* img { width: 100%; height: auto; } */
@@ -114,6 +116,8 @@ canvas {
   z-index: 12;
   width: 2000px;
   height: 250px;
+  overflow: hidden;
+  resize: both;
 }
 #topOverlay {
   position: absolute;
@@ -122,6 +126,8 @@ canvas {
   z-index: 12;
   width: 1000px;
   height: 55px;
+  overflow: hidden;
+  resize: both;
 }
 
 #pngOverlay1 {
@@ -137,11 +143,53 @@ canvas {
   /* border: 2px white solid; */
   border-radius: 0%;
   overflow: hidden;
+  resize: both;
   /* box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6); */
   /* animation: rotation 4s infinite ; */
   /* transform: translatey(0px);
 	animation: float 6s ease-in-out infinite; */
   /* img { width: 100%; height: auto; } */
+}
+#fileForm {
+  z-index: 12;
+  position: absolute;
+  left: 2.5%;
+  top: 90%;
+  height: 70%;
+  width: 47%;
+  /* width: 50%;
+  height:50%; */
+  box-sizing: border-box;
+  /* border: 2px white solid; */
+  border-radius: 0%;
+  overflow: hidden;
+  resize: both;
+  /* box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6); */
+  /* animation: rotation 4s infinite ; */
+  /* transform: translatey(0px);
+  animation: float 6s ease-in-out infinite; */
+  /* img { width: 100%; height: auto; } */
+}
+#block {
+  z-index: 00;
+  position: absolute;
+  left: 2.5%;
+  top: 90%;
+  height: 70%;
+  width: 47%;
+  /* width: 50%;
+  height:50%; */
+  box-sizing: border-box;
+  /* border: 2px white solid; */
+  border-radius: 0%;
+  overflow: hidden;
+  resize: both;
+  /* box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6); */
+  /* animation: rotation 4s infinite ; */
+  /* transform: translatey(0px);
+  animation: float 6s ease-in-out infinite; */
+  /* img { width: 100%; height: auto; } */
+  background-color: #000;
 }
 
 #lower_left {
@@ -150,6 +198,20 @@ canvas {
   position: absolute;
   left: 75%;
   top: 50%;
+  height: 50%;
+  width: 70%;
+  overflow-y: auto;
+  padding: 2px;
+  overflow: hidden;
+  resize: both;
+}
+
+#lower_middle {
+  z-index: 21;
+  cursor: move;
+  position: absolute;
+  left: 55%;
+  top: 61%;
   height: 50%;
   width: 70%;
   overflow-y: auto;
@@ -169,6 +231,8 @@ canvas {
   /* border: 2px white solid; */
   border-radius: 0%;
   overflow: hidden;
+  resize: both;
+   border: 2px solid;
   /* box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6); */
   /* animation: rotation 4s infinite ; */
   /* transform: translatey(0px);
@@ -300,4 +364,23 @@ button:hover {
   100% {
     background-position: 0 0;
   }
+}
+
+form {
+  background-color: #45456b;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: -100;
+}
+
+/* Input and button styles */
+input[type="file"] {
+  border: 2px solid #ff8f00; /* Orange border */
+  background-color: #3d3d5c;
+  color: #d1c4e9; /* Light purple text */
+  padding: 8px;
+  margin-bottom: 10px;
+  width: calc(100% - 22px); /* Full-width minus border and padding */
+  border-radius: 4px;
 }

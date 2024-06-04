@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Public Service Scanner</title>
+  <link rel="stylesheet" href="style.css">
+  
+<!-- Please separate the CSS and the Script portions of this codebase from the containing HTML and create two files in which to put them called "style.css" and "script.js".  Create a folder titled "data" in your Visual Studio workspace and add images to this folder that can be used to test its functionality. -->
+  
+</head>
+
+<style>
+    
+    .body {
+    width: 100%; 
+    
+  }
+  
+  .center {
+    display: block;
+    margin-left: 20%;
+    margin-right: auto;
+    margin-bottom: 3px;
+    /* width: 50%; */
+    width: 60%;
+    box-shadow:inset 0px 34px 0px -15px #b54b3a;
+	  background-color:#a73f2d;
+	  border:4px solid #241d13;
+	  display:inline-block;
+	  cursor:pointer;
+	  color:#ffffff;
+	  font-family:Arial;
+	  font-size:15px;
+	  font-weight:bold;
+	  /* padding:9px 23px; */
+	  text-decoration:none;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 25%;
+  top: 20%;
+  width:50%;
+  height: auto;
+  overflow: auto;
+  background-color: rgb(185, 106, 9);
+  border-radius: 15px;
+  border: 2px solid rgb(9, 0, 14);
+  padding: 0px; 
+  opacity: 50;
+  /* align-items: ; */
+}
+.modal-content {
+  /* background-color: aliceblue; */
+  top:5%;
+  margin: 15% auto;
+  padding: 20px;
+  /* border: 2px solid #a73f2d; */
+  width: 40%;  
+}
+.close {
+  color: rgb(244, 237, 237);
+  float: left;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: rgb(242, 234, 234);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#close {
+  color: rgb(245, 241, 241);
+  /* float: right; */
+  font-size: 28px;
+  font-weight: bold;
+}
+#close:hover,
+#close:focus {
+  color: rgb(243, 240, 240);
+  text-decoration: none;
+  cursor: pointer;
+}
+.myButton:hover {
+	background-color:#b34332;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+
+    }
+    .center_full {
+    
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  .myImage {
+  
+    display: block;
+    background-repeat: no-repeat;
+    background-size: contain; 
+  }
+  #myImage {
+    /* height: 100%;
+    object-fit:cover;
+    width: 100%; */
+    height:50%;
+    width: 60%;
+  }
+  .background{
+    background-image: linear-gradient( rgb(189, 188, 188), rgb(255, 255, 255));
+    background-size:cover;  
+  } 
+  #showBar{
+  display: none;
+  }
+     </style>
+
+  
+<body>
+
+		<div id = "showBar" class="" >
+			<button id="myT" class="center" onmousedown="showBar()">SHOW</button>
+		</div>
+
+		<div id = "controlBar" class="" >
+				<input type="file"   class="center" id="fileToLoad"><br>
+				<div id="inputTextToSave" resize:both ></div>     
+				<div id="fileToLoad"></div>    
+      		
+			<!--
+			    <button id=record  class="center" ></button>
+				
+      			<button id=stopRecord  class="center" ></button> 
+			-->  
+				  <button id="myP"  class="center"  onmousedown="mouseDown()" onmouseup="mouseUp()"> TALK/SEND	</button>
+				  <button id="myQ"  class="center"  onmousedown="playBack()">PLAY BACK</button>
+				 
+				  <button id="myS"  class="center"  onmousedown="fullScan()">LOOP</button>
+			<!--	  <input type="text" class="center" id="myText" value="start.jpg"> -->
+		<!--	  <button id="myS"  class="center"  onmousedown="loadFileAsText()">LOAD</button>-->	
+				  
+				                     
+				  <button id="myT" class="center" onmousedown="hideBar()">HIDE</button>
+				  <button id="myU" class="center" onmousedown="">STOP</button>
+				  <button id="myBtn" class="center" onmousedown="showUploads()">SHOW UPLOADS</button>
+				  <audio id=recordedAudio class="center" ></audio>
+			<div id="myModal" class="modal">
+				<div class="modal-content"><h1>Uploaded Files:</h1>
+					<span class="close" id="close">&times;</span>
+					<p></p>
+				</div>
+			</div>
+			</div>
+				 <!-- <canvas id="canvas"></canvas> -->	
+			
+
+			
+					
+
+					<div id= "imageBar">
+						<img id="myImage"   class="center_full"  src="data/life.jpg"style="width = 90%">
+					</div>
+			 
+			    
+				<!--  <div id=recordings style="background-color:pink">relay</div> -->
+					
+<!-- partial -->
+<script>
+       let localBlob = [];
+let imageStack = [];
+let counter = 0;
+let localCounter = -1;
+let showHide = true;
+
+const input = document.querySelector("myText");
+//input.addEventListener('change', updateImageDisplay);
+function updateImageDisplay() {
+  document.getElementById("myText").value =
+    document.getElementById("fileToLoad").value;
+}
+
+navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+  handlerFunction(stream);
+});
+
+function changeBackground(data) {
+  const stackValue = "data/" + data;
+  console.log("stackValue = " + stackValue);
+  var img2 = document.getElementById("myImage");
+  document.getElementById("myImage").src = stackValue;
+  // var img2 = document.getElementById('fileToLoad');
+  // document.getElementById("fileToLoad").src = stackValue;
+  console.log("img2 = " + img2.data);
+}
+
+function loadFileAsText() {
+  var fileToLoad = document.getElementById("fileToLoad").files[0];
+  var fileReader = new FileReader();
+  fileReader.onload = function (fileLoadedEvent) {
+    var textFromFileLoaded = fileLoadedEvent.target.result;
+    console.log(textFromFileLoaded);
+    document.getElementById("myText").value = textFromFileLoaded;
+  };
+  fileReader.readAsText(fileToLoad, "UTF-8");
+}
+
+function handlerFunction(stream) {
+  rec = new MediaRecorder(stream);
+  rec.ondataavailable = (e) => {
+    audioChunks.push(e.data);
+    if (rec.state == "inactive") {
+      let blob = new Blob(audioChunks, { type: "audio/mpeg-3" });
+      sendData(blob);
+    }
+  };
+}
+
+function showBar() {
+  console.log("in here");
+  console.log("showHide = " + showHide);
+
+  document.getElementById("controlBar").style.display = "block";
+  const newLocal = "showBar";
+  document.getElementById(newLocal).style.display = "none";
+}
+
+function hideBar() {
+  document.getElementById("controlBar").style.display = "none";
+  document.getElementById("showBar").style.display = "block";
+}
+
+function wait(ms) {
+  var d = new Date();
+  var d2 = null;
+  do {
+    d2 = new Date();
+  } while (d2 - d < ms);
+}
+
+function fullScan(data) {
+  let localCounter = 0;
+  fullscanTargetdark(data, localCounter);
+}
+
+function fullscanTarget(data, localCounterin) {
+  //for (var i=0;i<2000;i++){console.log(i);}
+  wait(2000);
+  let localCounterout = localCounterin;
+  console.log(localCounterout + "<lci c>" + counter);
+  //localBlob = data;
+  recordedAudio.src = URL.createObjectURL(localBlob[localCounterout]);
+  recordedAudio.controls = true;
+  changeBackground(imageStack[localCounterout]);
+  recordedAudio.play();
+  localCounterout = localCounterout + 1;
+  if (localCounterout == counter) {
+    localCounterout = 0;
+  }
+  document.getElementById("recordedAudio").onended = function () {
+    fullscanTargetdark(data, localCounterout);
+  };
+}
+
+function fullscanTargetdark(data, localCounter) {
+  //for (var i=0;i<2000;i++){console.log(i);}
+  wait(2000);
+  let localCounterin = localCounter;
+  console.log(localCounterin + "<lci c>" + counter);
+  //localBlob = data;
+  //console.log(localBlob);
+  recordedAudio.src = URL.createObjectURL(localBlob[localCounterin]);
+  recordedAudio.controls = true;
+  changeBackground(imageStack[localCounterin]);
+  recordedAudio.play();
+  localCounterin = localCounterin + 1;
+  if (localCounterin == counter) {
+    localCounterin = 0;
+  }
+  document.getElementById("recordedAudio").onended = function () {
+    fullscanTarget(data, localCounterin);
+  };
+}
+
+function sendData(data) {
+  localBlob[counter] = data;
+  // imageStack[counter] = document.getElementById("myText").value;
+  //const imageStack = document.getElementById(fileToLoad).value;
+  imageStack[counter] = document
+    .getElementById("fileToLoad")
+    .value.replace("C:\\fakepath\\", "");
+  changeBackground(imageStack[counter]);
+  recordedAudio.src = URL.createObjectURL(localBlob[counter]);
+  recordedAudio.controls = true;
+  recordedAudio.play();
+  counter = counter + 1;
+}
+
+function playBack(data) {
+  localCounter = localCounter + 1;
+  console.log("The Counter is Equal to: " + counter);
+  localBlob[counter] = data;
+  console.log(localCounter + "<LC C>" + counter);
+
+  if (localCounter == counter) {
+    localCounter = 0;
+  }
+  recordedAudio.src = URL.createObjectURL(localBlob[localCounter]);
+  recordedAudio.controls = true;
+  recordedAudio.play();
+
+  if (localCounter == counter) {
+    localCounter = 0;
+  }
+}
+
+function mouseDown() {
+  // document.getElementById("myP").style.color = "red";
+  console.log("recording");
+  //record.disabled = true;
+  //record.style.backgroundColor = "green"
+  //stopRecord.disabled=false;
+  audioChunks = [];
+  rec.start();
+}
+function mouseUp() {
+  //   document.getElementById("myP").style.color = "green";
+  console.log("broadcasting");
+  // record.disabled = false;
+  stop.disabled = true;
+  // record.style.backgroundColor = "red"
+  rec.stop();
+}
+
+function showUploads() {
+  console.log("I'm in here!!!");
+  console.log("imageStack = " + imageStack);
+  console.log("imageStack.length =" + imageStack.length);
+  let html = document.getElementById("myModal").innerHTML;
+  document.getElementById("close").innerHTML = ""
+  for (i = 0; i < imageStack.length; i++) {
+    document.getElementById("close").innerHTML =
+      document.getElementById("close").innerHTML +
+      "<br>" +
+      imageStack[i] +
+      "<br>";
+  }
+}
+
+var modal = document.getElementById("myModal");
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function () {
+  modal.style.display = "block";
+};
+span.onclick = function () {
+  modal.style.display = "none";
+};
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
+
+</script>
+  <script  src="script.js"></script> 
+ 
+</body>
+</html>
+ 

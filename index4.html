@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Copier Client</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #33334d;
+            color: white;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    
+        /* Styling for the main form container */
+        form {
+            background-color: #45456b;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+  
+    
+        /* Input and button styles */
+        input[type="file"] {
+            border: 2px solid #ff8f00; /* Orange border */
+            background-color: #3d3d5c;
+            color: #d1c4e9; /* Light purple text */
+            padding: 8px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px); /* Full-width minus border and padding */
+            border-radius: 4px;
+        }
+    
+        button {
+            background-color: #ff8f00; /* Orange background */
+            color: #45456b; /* Dark text for visibility */
+            border: none;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    
+        button:hover, button:focus {
+            background-color: #d1c4e9; /* Light purple for hover */
+            color: #00bcd4; /* Turquoise text on hover */
+        }
+    
+        /* Response div styling */
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #56567d;
+            border: 1px solid #00bcd4; /* Turquoise border */
+            border-radius: 4px;
+            color: #ffcc80; /* Light orange text */
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>File Copier Tool</h1>
+    <form id="fileForm">
+        <input type="file" id="fileInput" required>
+        <button type="submit">Copy File</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#fileForm').on('submit', function(e) {
+                e.preventDefault();
+                var fileInput = document.getElementById('fileInput');
+                console.log(fileInput.files);
+                if (fileInput.files.length > 0) {
+                    var file = fileInput.files[0];
+                    var formData = new FormData();
+                    formData.append("file", file);
+
+                    $.ajax({
+                        url: 'http://localhost:3000/copyFile',
+                        type: 'POST',
+                        processData: false, // Prevents jQuery from automatically transforming the data into a query string
+                        contentType: false,
+                        data: formData,
+                        success: function(response) {
+                            $('#response').html('<p>' + response + '</p>');
+                        },
+                        error: function(xhr, status, error) {
+                            $('#response').html('<p style="color: red;">Error: ' + xhr.responseText + '</p>');
+                        }
+                    });
+                } else {
+                    $('#response').html('<p style="color: red;">Please select a file to copy.</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
