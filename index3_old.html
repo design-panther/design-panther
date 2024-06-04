@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parallax Slider with Form</title>
+   <link rel="stylesheet" href="style.css">
+</head>
+<style>html,
+ body   {   margin: 0;
+    padding: 0;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    text-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+    font-family: lato;
+      background-image: url("https://64.media.tumblr.com/6b95632666d618fc978d0b21af4b7997/076c6103b42ec36e-2e/s1280x1920/56c2caedc902053718a54a7c19950a48303010c7.pnj");
+}
+     /* Code goes here */
+ 
+
+.swipe {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.swipe-wrap {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    perspective: 800px;
+    perspective-origin: 50% 0;
+    transform-style: preserve-3d;
+    width: 100%;
+    height: 100%;
+}
+
+.swipe-wrap > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    transform-style: preserve-3d;
+    opacity: 0; /* Hide all slides initially */
+    transition: opacity 1.5s ease-in-out; /* Transition for fade effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.swipe-wrap > div.active {
+    opacity: 1; /* Show active slide */
+}
+
+h1, h2, h3 {
+    font-size: 4em;
+    font-weight: 300;
+    opacity: 0; /* Initially hidden */
+    transform: translate3d(0, -50px, 0);
+    transition: opacity 1s ease, transform 1s ease; 
+   -webkit-text-stroke: 1px black;
+   color: white;
+   text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,  
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;  
+  /* Transition for text elements */
+}
+
+.swipe-wrap > div.active h1 {
+    transition-delay: 0.5s; /* Delayed transition for staggering effect */
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.swipe-wrap > div.active h2 {
+    transition-delay: 0.7s; /* Delayed transition for staggering effect */
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.swipe-wrap > div.active h3 {
+    transition-delay: 0.9s; /* Delayed transition for staggering effect */
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+#sliderInputForm {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: grey;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 2; /* Ensure form is above slider */
+}
+
+#sliderInputForm label, #sliderInputForm input, #sliderInputForm button {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#sliderInputForm label {
+    margin-bottom: 5px;
+}
+
+#sliderInputForm input {
+    width: calc(100% - 20px);
+}
+
+#sliderInputForm button {
+    width: 100%;
+}</style>
+
+
+
+
+<body>
+
+    <div id="slider" class="swipe">
+        <div class="swipe-wrap">
+            <div style="background-image:url(https://64.media.tumblr.com/6b95632666d618fc978d0b21af4b7997/076c6103b42ec36e-2e/s1280x1920/56c2caedc902053718a54a7c19950a48303010c7.pnj">
+                <h1>the text is placed</h1>
+                <h2>on layers that are</h2>
+                <h3>translated on the z-axis</h3>
+              </div>
+              
+<!--               <div style="background-image:url(https://64.media.tumblr.com/968f9a1571786d98cc1a17cf95a82676/e618f7c112927f3f-ed/s540x810/594136197e2c3e599608bedd097d35f463850a90.jpg">
+                <h1>This is a Slide Show</h1>
+                <h2>These should probably be sized differently</h2>
+                <h3>, or perhaps not</h3>
+              </div> -->
+            <!-- Placeholder for dynamically added slides -->
+        </div>
+    </div>
+
+<div id="slider" class="swipe">
+    <div class="swipe-wrap">
+        <!-- Existing slider sections can be added here -->
+   
+    </div>
+</div>
+
+<!-- Slider Input Form -->
+<form id="sliderInputForm">
+    <label for="backgroundImageURL">Background Image URL:</label>
+    <input type="text" id="backgroundImageURL" name="backgroundImageURL" placeholder="Enter image URL"><br>
+
+    <label for="h1Text">Text for H1:</label>
+    <input type="text" id="h1Text" name="h1Text" placeholder="Enter text for H1"><br>
+
+    <label for="h2Text">Text for H2:</label>
+    <input type="text" id="h2Text" name="h2Text" placeholder="Enter text for H2"><br>
+
+    <label for="h3Text">Text for H3:</label>
+    <input type="text" id="h3Text" name="h3Text" placeholder="Enter text for H3"><br>
+
+    <button type="button" id="submitBtn">Add to Slider</button>
+</form>
+
+<script>
+   // Script for adding new div to slider and slider functionality
+   document.getElementById('submitBtn').addEventListener('click', function() {
+        // ... (Keep previous script for adding div here) ...
+
+        // Make newly added div the active slide
+        var slides = document.querySelectorAll('.swipe-wrap > div');
+        slides.forEach(function(slide) {
+            slide.classList.remove('active');
+        });
+        newDiv.classList.add('active');
+    });
+
+    // Basic functionality to cycle through slides
+    // function nextSlide() {
+    //     var slides = document.querySelectorAll('.swipe-wrap > div');
+    //     var activeIndex = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
+    //     var nextIndex = (activeIndex + 1) % slides.length;
+        
+    //     slides[activeIndex].classList.remove('active');
+    //     slides[nextIndex].classList.add('active');
+    // }
+
+    // // Optional: Automatically move to the next slide every few seconds
+    // setInterval(nextSlide, 3000); // Change slides every 3 seconds
+</script>
+<script src="script.js"></script>
+</body>
+</html>
