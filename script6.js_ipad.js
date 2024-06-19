@@ -34,7 +34,7 @@ async function startRecording() {
           recordedChunks = [];
           const url = URL.createObjectURL(blob);
           console.log('Recording stopped. Blob URL:', url);
-          attachAudioToButton(url);
+          createAndPrependButton(url);
         };
   
         mediaRecorder.onerror = function (event) {
@@ -49,26 +49,26 @@ async function startRecording() {
         console.error('Error accessing the microphone:', err);
       }
     }
-  }
-  
+}
 
-// Function to attach audio to the next available button
-function attachAudioToButton(audioUrl) {
-  const buttons = document.querySelectorAll('#lower_middle .glow-on-hover');
-  for (let button of buttons) {
-    if (!button.hasAttribute('data-audio-attached')) {
-      button.setAttribute('data-audio-attached', 'true');
-      button.onclick = function () {
-        const audio = new Audio(audioUrl);
-        audio.play();
-      };
-      button.style.backgroundColor = 'lightgreen';
-      break;
-    }
+// Function to create and prepend a new button with the recorded audio
+function createAndPrependButton(audioUrl) {
+  const newButton = document.createElement('button');
+  newButton.className = 'glow-on-hover';
+  newButton.type = 'button';
+//   newButton.textContent = 'New Sound';
+  newButton.onclick = function () {
+    const audio = new Audio(audioUrl);
+    audio.play();
+  };
+
+  const flexContainer = document.getElementById('lower_middle');
+  if (flexContainer) {
+    flexContainer.insertBefore(newButton, flexContainer.firstChild);
   }
 }
 
-// Functionality for buttons in lower_left
+// Functionality for buttons in lower_middle
 const urls = [
   'images/kicker2.wav', 'images/kicker13.wav', 'images/New_weird.wav', 
   'images/glow.wav', 'images/owl.wav', 'images/cat.m4a', 
