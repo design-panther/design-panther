@@ -1,0 +1,133 @@
+/* styles_ipad.css */
+
+/* Subtle background gradient for the body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+    color: #ffffff;
+    height: 100vh;
+    width: 100vw;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Adjust to prevent cutting off */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 1024px; /* Constrain to iPad Pro width */
+    height: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+.flex-container {
+    display: grid;
+    gap: 5px; /* Adjust gap between buttons */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Grid for lower_middle */
+#lower_middle {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    height: auto; /* Adjust height to fit better */
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+}
+
+/* Grid for middle */
+#middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15vh; /* Increase height */
+    width: 100%;
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #2a2a2a, #3a3a3a); /* Subtle background gradient for #middle */
+}
+
+#middle button {
+    width: 50%; /* Adjust width as needed */
+    height: 80%; /* Adjust height as needed */
+    font-size: 2vw; /* Increase font size */
+    cursor: pointer;
+    background: linear-gradient(135deg, #3a3a3a, #4a4a4a); /* Subtle background gradient for button */
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.material-dark-button, .glow-on-hover, .glow-on-hover2 {
+    font-size: 1.5vw; /* Adjust font size */
+    cursor: pointer;
+    background: linear-gradient(135deg, #3a3a3a, #4a4a4a); /* Subtle background gradient for buttons */
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1; /* Make buttons square */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.glow-on-hover:hover, .glow-on-hover2:hover {
+    background: linear-gradient(135deg, #4a4a4a, #5a5a5a);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+
+.glow-on-hover:active, .glow-on-hover2:active {
+    background-color: #555555;
+}
+
+.glow-on-hover:focus, .glow-on-hover2:focus {
+    outline: none;
+}
+
+.glow-on-hover:focus-visible, .glow-on-hover2:focus-visible {
+    outline: 2px solid #ffffff;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    #lower_middle, #lower_left {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        height: auto; /* Adjust height to auto for smaller screens */
+    }
+    .material-dark-button, .glow-on-hover, .glow-on-hover2, #middle button {
+        font-size: 3vw; /* Adjust font size for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    #lower_middle, #lower_left {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        height: auto; /* Adjust height to auto for smaller screens */
+    }
+    .material-dark-button, .glow-on-hover, .glow-on-hover2, #middle button {
+        font-size: 4vw; /* Adjust font size for smaller screens */
+        padding: 10px;
+    }
+}
