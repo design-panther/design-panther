@@ -70,9 +70,10 @@ function createAndPrependButton(audioUrl) {
 
 // Functionality for buttons in lower_middle
 const urls = [
-  'images/kicker2.wav', 'images/kicker13.wav', 'images/New_weird.wav', 
-  'images/glow.wav', 'images/owl.wav', 'images/cat.m4a', 
-  'images/ambient_jams.m4a', 'images/dub_coffee.m4a', 'images/kicker.wav'
+    'images/kicker2.wav', 'images/kicker13.wav', 'images/New_weird.wav', 
+    'images/glow.wav', 'images/owl.wav', 'images/cat.m4a', 
+    'images/ambient_jams.m4a', 'images/dub_coffee.m4a','images/shortwave.wav',
+    'images/spooky.wav','images/kicker.wav','images/glitch.wav','images/ragtime.wav'
 ];
 
 function playAudio(url) {
@@ -107,7 +108,18 @@ document.getElementById('bt7').addEventListener('click', function() {
 document.getElementById('bt8').addEventListener('click', function() {
   playAudio(urls[8]);
 });
-
+document.getElementById('bt13').addEventListener('click', function() {
+    playAudio(urls[9]);
+  });
+  document.getElementById('bt14').addEventListener('click', function() {
+    playAudio(urls[10]);
+  });
+  document.getElementById('bt15').addEventListener('click', function() {
+    playAudio(urls[11]);
+  });
+  document.getElementById('bt16').addEventListener('click', function() {
+    playAudio(urls[12]);
+  });
 // Existing functionality for Konva and other elements
 let imageHolder;
 let canvasCounter = 0;
